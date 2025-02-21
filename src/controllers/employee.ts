@@ -10,7 +10,6 @@ export class EmployeeController implements IEmployeeController {
       const result = await Employee.create({
         ...payload,
         createdAt: new Date(),
-        updatedAt: new Date(),
       });
       return {
         status: 201,
@@ -70,9 +69,9 @@ export class EmployeeController implements IEmployeeController {
 
   async updateEmployee(req: Request, res: Response): Promise<IApiResponse> {
     try {
-      const { id } = req.params;
+      const { id } = req.query;
       const payload: IEmployeeData = req.body;
-      const employee = await Employee.findByPk(id);
+      const employee = await Employee.findByPk(id as string);
 
       if (!employee)
         return {
@@ -98,8 +97,8 @@ export class EmployeeController implements IEmployeeController {
 
   async deleteEmployee(req: Request, res: Response): Promise<IApiResponse> {
     try {
-      const { id } = req.params;
-      const employee = await Employee.findByPk(id);
+      const { id } = req.query;
+      const employee = await Employee.findByPk(id as string);
 
       if (!employee)
         return {
