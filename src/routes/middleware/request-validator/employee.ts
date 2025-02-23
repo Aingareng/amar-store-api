@@ -3,13 +3,36 @@ import { RequestHandler } from "express";
 import { IEmployeeData } from "../../../interfaces/employee";
 
 const createEmployeeSchema = Joi.object<IEmployeeData>({
-  username: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
-  phone: Joi.string().required(),
-  isMale: Joi.boolean().required(),
-  age: Joi.date().required(),
-  education: Joi.string().required(),
+  username: Joi.string().alphanum().required().messages({
+    "string.empty": "Username tidak boleh kosong",
+    "any.required": "Username harus diisi",
+  }),
+  email: Joi.string().email().required().messages({
+    "string.email": "Email tidak valid",
+    "string.empty": "Email tidak boleh kosong",
+    "any.required": "Email harus diisi",
+  }),
+  password: Joi.string().min(6).required().messages({
+    "string.min": "Password minimal 6 karakter",
+    "string.empty": "Password tidak boleh kosong",
+    "any.required": "Password harus diisi",
+  }),
+  phone: Joi.string().required().messages({
+    "string.empty": "Nomor telepon tidak boleh kosong",
+    "any.required": "Nomor telepon harus diisi",
+  }),
+  isMale: Joi.boolean().required().messages({
+    "string.empty": "Jenis kelamin tidak boleh kosong",
+    "any.required": "Jenis kelamin harus diisi",
+  }),
+  age: Joi.date().required().messages({
+    "string.empty": "Usia tidak boleh kosong",
+    "any.required": "Usia harus diisi",
+  }),
+  education: Joi.string().required().messages({
+    "string.empty": "Pendidikan tidak boleh kosong",
+    "any.required": "Pendidikan harus diisi",
+  }),
   experience: Joi.date().optional(),
   leadership: Joi.string().optional(),
   // id, createdAt, updatedAt biasanya ditangani secara otomatis oleh DB
