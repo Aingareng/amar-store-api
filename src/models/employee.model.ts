@@ -12,6 +12,9 @@ export class Employee extends Model {
   public education!: string;
   public experience!: Date;
   public leadership!: string;
+  public final_score!: number;
+  public rangking!: number;
+  public position!: string;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -68,6 +71,18 @@ Employee.init(
     updatedAt: {
       allowNull: false,
       type: DataTypes.DATE,
+    },
+    final_score: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    rangking: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    position: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

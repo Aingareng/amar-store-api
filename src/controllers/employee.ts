@@ -2,6 +2,7 @@ import { Employee } from "../models";
 import { IEmployeeController, IEmployeeData } from "../interfaces/employee";
 import { Request, Response } from "express";
 import { IApiResponse } from "../interfaces/apiResponse";
+import { Op } from "sequelize";
 
 export class EmployeeController implements IEmployeeController {
   async createEmployee(req: Request, res: Response): Promise<IApiResponse> {
@@ -27,7 +28,20 @@ export class EmployeeController implements IEmployeeController {
 
   async getEmployees(req: Request, res: Response): Promise<IApiResponse> {
     try {
-      const employees = await Employee.findAll();
+      const { search } = req.query;
+
+      const whereClause: any = {};
+
+      if (search) {
+        whereClause[Op.or] = [
+          { username: { [Op.like]: `%${search}%` } },
+          { email: { [Op.like]: `%${search}%` } },
+          { phone: { [Op.like]: `%${search}%` } },
+          { position: { [Op.like]: `%${search}%` } },
+        ];
+      }
+
+      const employees = await Employee.findAll({ where: whereClause });
       return {
         status: 200,
         message: "success",
