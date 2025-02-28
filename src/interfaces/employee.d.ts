@@ -10,6 +10,7 @@ export interface IEmployeeData {
   isMale: boolean;
   age: Date;
   education: string;
+  position: string;
   experience: Date;
   leadership: string;
   createdAt?: Date;

@@ -3,7 +3,7 @@ import { RequestHandler } from "express";
 import { IEmployeeData } from "../../../interfaces/employee";
 
 const createEmployeeSchema = Joi.object<IEmployeeData>({
-  username: Joi.string().alphanum().required().messages({
+  username: Joi.string().required().messages({
     "string.empty": "Username tidak boleh kosong",
     "any.required": "Username harus diisi",
   }),
@@ -11,6 +11,10 @@ const createEmployeeSchema = Joi.object<IEmployeeData>({
     "string.email": "Email tidak valid",
     "string.empty": "Email tidak boleh kosong",
     "any.required": "Email harus diisi",
+  }),
+  position: Joi.string().required().messages({
+    "string.empty": "Posisi tidak boleh kosong",
+    "any.required": "Posisi harus diisi",
   }),
   password: Joi.string().min(6).required().messages({
     "string.min": "Password minimal 6 karakter",
