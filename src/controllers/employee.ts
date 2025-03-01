@@ -10,6 +10,9 @@ export class EmployeeController implements IEmployeeController {
       const payload: IEmployeeData = req.body;
       const result = await Employee.create({
         ...payload,
+        age: new Date(payload.age),
+        experience: new Date(payload.experience),
+        isMale: payload.gender === "male" ? true : false,
         createdAt: new Date(),
       });
       return {

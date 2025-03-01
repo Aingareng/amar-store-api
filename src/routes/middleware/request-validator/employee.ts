@@ -25,7 +25,7 @@ const createEmployeeSchema = Joi.object<IEmployeeData>({
     "string.empty": "Nomor telepon tidak boleh kosong",
     "any.required": "Nomor telepon harus diisi",
   }),
-  isMale: Joi.boolean().required().messages({
+  gender: Joi.string().required().messages({
     "string.empty": "Jenis kelamin tidak boleh kosong",
     "any.required": "Jenis kelamin harus diisi",
   }),
@@ -43,6 +43,11 @@ const createEmployeeSchema = Joi.object<IEmployeeData>({
 });
 
 export const validateCreateEmployee: RequestHandler = (req, res, next) => {
+  const requestUser = {
+    ...req.body,
+    isMale: req.body.gender === "male" ? true : false,
+  };
+
   const { error } = createEmployeeSchema.validate(req.body, {
     abortEarly: false,
   });
@@ -65,7 +70,7 @@ const updateEmployeeSchema = Joi.object<IEmployeeData>({
   email: Joi.string().email().optional(),
   password: Joi.string().min(6).optional(),
   phone: Joi.string().optional(),
-  isMale: Joi.boolean().optional(),
+  gender: Joi.string().optional(),
   age: Joi.date().optional(),
   education: Joi.string().optional(),
   experience: Joi.date().optional(),

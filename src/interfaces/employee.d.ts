@@ -7,11 +7,11 @@ export interface IEmployeeData {
   email: string;
   password: string;
   phone: string;
-  isMale: boolean;
-  age: Date;
+  gender: "male" | "female";
+  age: string;
   education: string;
   position: string;
-  experience: Date;
+  experience: string;
   leadership: string;
   createdAt?: Date;
   updatedAt?: Date;
