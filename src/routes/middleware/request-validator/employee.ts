@@ -66,7 +66,7 @@ export const validateCreateEmployee: RequestHandler = (req, res, next) => {
 // ----------------------------------------------------
 
 const updateEmployeeSchema = Joi.object<IEmployeeData>({
-  username: Joi.string().optional(),
+  // username: Joi.string().optional(),
   email: Joi.string().email().optional(),
   password: Joi.string().min(6).optional(),
   phone: Joi.string().optional(),
@@ -75,6 +75,7 @@ const updateEmployeeSchema = Joi.object<IEmployeeData>({
   education: Joi.string().optional(),
   experience: Joi.date().optional(),
   leadership: Joi.string().optional(),
+  position: Joi.string().optional(),
 });
 
 export const validateUpdateEmployee: RequestHandler = (req, res, next) => {

@@ -31,9 +31,13 @@ export class EmployeeController implements IEmployeeController {
 
   async getEmployees(req: Request, res: Response): Promise<IApiResponse> {
     try {
-      const { search } = req.query;
+      const { search, id } = req.query;
 
       const whereClause: any = {};
+
+      if (!search && id) {
+        whereClause.id = id;
+      }
 
       if (search) {
         whereClause[Op.or] = [
