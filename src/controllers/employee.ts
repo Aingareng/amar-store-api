@@ -133,7 +133,14 @@ export class EmployeeController implements IEmployeeController {
           data: undefined,
         };
 
-      await employee.update(payload);
+      await employee.update({
+        ...payload,
+        age: +payload.age,
+        experience: +payload.experience,
+        skill: payload.skill ? payload.skill : 0,
+        isMale: payload.gender === "male" ? true : false,
+        updatedAt: new Date(),
+      });
       return {
         status: 201,
         message: "updated",

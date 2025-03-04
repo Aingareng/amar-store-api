@@ -52,7 +52,7 @@ export const validateCreateEmployee: RequestHandler = (req, res, next) => {
     isMale: req.body.gender === "male" ? true : false,
   };
 
-  const { error } = createEmployeeSchema.validate(req.body, {
+  const { error } = createEmployeeSchema.validate(requestUser, {
     abortEarly: false,
   });
 
