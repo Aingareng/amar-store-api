@@ -8,13 +8,14 @@ export class Employee extends Model {
   public password!: string;
   public phone!: string;
   public isMale!: boolean;
-  public age!: Date;
-  public education!: string;
-  public experience!: Date;
-  public leadership!: string;
+  public age!: number;
+  public education!: number;
+  public experience!: number;
+  public leadership!: number;
   public final_score!: number;
   public rangking!: number;
   public position!: string;
+  public skill!: number;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -49,19 +50,19 @@ Employee.init(
       allowNull: false,
     },
     age: {
-      type: DataTypes.DATE,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     education: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     experience: {
-      type: DataTypes.DATE,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     leadership: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     createdAt: {
@@ -82,6 +83,10 @@ Employee.init(
     },
     position: {
       type: DataTypes.STRING,
+      allowNull: true,
+    },
+    skill: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
   },

@@ -1,17 +1,20 @@
 import { Employee } from "../models";
 import { IEmployeeController, IEmployeeData } from "../interfaces/employee";
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import { IApiResponse } from "../interfaces/apiResponse";
 import { Op } from "sequelize";
+import { getWeightsByROC } from "../utils/getWeightsByROC";
+import { calculateARAS } from "../services/arasService";
 
 export class EmployeeController implements IEmployeeController {
   async createEmployee(req: Request, res: Response): Promise<IApiResponse> {
     try {
       const payload: IEmployeeData = req.body;
+
       const result = await Employee.create({
         ...payload,
-        age: new Date(payload.age),
-        experience: new Date(payload.experience),
+        age: +payload.age,
+        experience: +payload.experience,
         isMale: payload.gender === "male" ? true : false,
         createdAt: new Date(),
       });
@@ -31,6 +34,7 @@ export class EmployeeController implements IEmployeeController {
 
   async getEmployees(req: Request, res: Response): Promise<IApiResponse> {
     try {
+      const weights = await getWeightsByROC();
       const { search, id } = req.query;
 
       const whereClause: any = {};
@@ -49,10 +53,38 @@ export class EmployeeController implements IEmployeeController {
       }
 
       const employees = await Employee.findAll({ where: whereClause });
+      const dataString = JSON.stringify(employees, null, 2);
+      const dataParse = JSON.parse(dataString) as [];
+
+      const candidateData = employees.map((c) => {
+        return {
+          ...c,
+          id: c.id,
+          name: c.username,
+          skill: c.skill,
+          leadership: c.leadership,
+          education: c.education,
+          experience: c.experience,
+          age: c.age,
+        };
+      });
+
+      const arasResults = calculateARAS(candidateData, weights);
+
+      const scoreMap = new Map(
+        arasResults.map((item) => [item.id, item.score])
+      );
+      const result = dataParse.map((item: Employee) => {
+        return {
+          ...item,
+          final_score: scoreMap.get(item.id) || item.final_score,
+        };
+      });
+
       return {
         status: 200,
         message: "success",
-        data: employees,
+        data: result.sort((a, b) => b.final_score - a.final_score),
       };
     } catch (error: any) {
       return {

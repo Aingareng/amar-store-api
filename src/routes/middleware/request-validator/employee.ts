@@ -29,7 +29,7 @@ const createEmployeeSchema = Joi.object<IEmployeeData>({
     "string.empty": "Jenis kelamin tidak boleh kosong",
     "any.required": "Jenis kelamin harus diisi",
   }),
-  age: Joi.date().required().messages({
+  age: Joi.string().required().messages({
     "string.empty": "Usia tidak boleh kosong",
     "any.required": "Usia harus diisi",
   }),
@@ -37,7 +37,11 @@ const createEmployeeSchema = Joi.object<IEmployeeData>({
     "string.empty": "Pendidikan tidak boleh kosong",
     "any.required": "Pendidikan harus diisi",
   }),
-  experience: Joi.date().optional(),
+  skill: Joi.string().required().messages({
+    "string.empty": "Usia tidak boleh kosong",
+    "any.required": "Usia harus diisi",
+  }),
+  experience: Joi.string().optional(),
   leadership: Joi.string().optional(),
   // id, createdAt, updatedAt biasanya ditangani secara otomatis oleh DB
 });
@@ -66,14 +70,14 @@ export const validateCreateEmployee: RequestHandler = (req, res, next) => {
 // ----------------------------------------------------
 
 const updateEmployeeSchema = Joi.object<IEmployeeData>({
-  // username: Joi.string().optional(),
+  skill: Joi.string().optional(),
   email: Joi.string().email().optional(),
   password: Joi.string().min(6).optional(),
   phone: Joi.string().optional(),
   gender: Joi.string().optional(),
-  age: Joi.date().optional(),
+  age: Joi.string().optional(),
   education: Joi.string().optional(),
-  experience: Joi.date().optional(),
+  experience: Joi.string().optional(),
   leadership: Joi.string().optional(),
   position: Joi.string().optional(),
 });

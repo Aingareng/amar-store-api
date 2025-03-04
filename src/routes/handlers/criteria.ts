@@ -17,11 +17,9 @@ const criteriaRoute = () => {
 
   router.put("/", async (req: Request, res: Response) => {
     try {
-      const payload = {
-        name: req.body.name,
-        point: req.body.point,
-      };
-      const response = await controller.updateSetting(payload, req.body.id);
+      const { data } = req.body;
+
+      const response = await controller.updateSetting(data);
 
       res.status(response.status as number).json(response);
     } catch (error) {

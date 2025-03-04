@@ -4,7 +4,7 @@ import { sequelize } from "../config/database";
 export class SettingModel extends Model {
   public id!: number;
   public name!: string;
-  public point!: number;
+  public rank_order!: number;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -22,7 +22,7 @@ SettingModel.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    point: {
+    rank_order: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

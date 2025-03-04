@@ -15,6 +15,7 @@ export interface IEmployeeData {
   leadership: string;
   createdAt?: Date;
   updatedAt?: Date;
+  skill?: string;
 }
 
 export interface IEmployeeController {
