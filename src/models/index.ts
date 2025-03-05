@@ -1,5 +1,6 @@
 import { sequelize } from "../config/database";
 import { Employee } from "./employee.model";
-Employee;
+import { SettingModel } from "./setting.model";
+import { LoginModel } from "./login.model";
 
-export { sequelize, Employee };
+export { sequelize, Employee, SettingModel, LoginModel };
