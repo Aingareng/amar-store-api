@@ -4,8 +4,8 @@ import e, { Request, Response } from "express";
 import { IApiResponse } from "../interfaces/apiResponse";
 import { Op } from "sequelize";
 import { getWeightsByROC } from "../utils/getWeightsByROC";
-import { calculateARAS } from "../services/arasService";
-
+import { calculateARAS5 } from "../services/arasService";
+// import { calculateARAS } from "../services/arasService";
 export class EmployeeController implements IEmployeeController {
   async createEmployee(req: Request, res: Response): Promise<IApiResponse> {
     try {
@@ -52,39 +52,14 @@ export class EmployeeController implements IEmployeeController {
         ];
       }
 
-      const employees = await Employee.findAll({ where: whereClause });
-      const dataString = JSON.stringify(employees, null, 2);
-      const dataParse = JSON.parse(dataString) as [];
-
-      const candidateData = employees.map((c) => {
-        return {
-          ...c,
-          id: c.id,
-          name: c.username,
-          skill: c.skill,
-          leadership: c.leadership,
-          education: c.education,
-          experience: c.experience,
-          age: c.age,
-        };
-      });
-
-      const arasResults = calculateARAS(candidateData, weights);
-
-      const scoreMap = new Map(
-        arasResults.map((item) => [item.id, item.score])
-      );
-      const result = dataParse.map((item: Employee) => {
-        return {
-          ...item,
-          final_score: scoreMap.get(item.id) || item.final_score,
-        };
+      const result = await calculateARAS5({
+        whereClause,
       });
 
       return {
         status: 200,
         message: "success",
-        data: result.sort((a, b) => b.final_score - a.final_score),
+        data: result,
       };
     } catch (error: any) {
       return {

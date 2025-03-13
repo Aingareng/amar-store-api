@@ -1,14 +1,25 @@
 import { Request, Response, Router } from "express";
-import { SettingController } from "../../controllers/settings";
+import { CriteriaController } from "../../controllers/criteria";
+import { calculateROCWeights } from "../../services/rocService";
+import { ICriteriaData } from "../../interfaces/criteria";
 
 const criteriaRoute = () => {
   const router: Router = Router();
-  const controller: SettingController = new SettingController();
+  const controller: CriteriaController = new CriteriaController();
 
   router.get("/", async (req: Request, res: Response) => {
     try {
-      const response = await controller.getSetting();
+      const response = await controller.getCriteria();
 
+      res.status(response.status as number).json(response);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch data" });
+    }
+  });
+
+  router.post("/", async (req: Request, res: Response) => {
+    try {
+      const response = await controller.create(req.body as ICriteriaData);
       res.status(response.status as number).json(response);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch data" });
@@ -19,7 +30,8 @@ const criteriaRoute = () => {
     try {
       const { data } = req.body;
 
-      const response = await controller.updateSetting(data);
+      const response = await controller.updateCriteria(data);
+      await calculateROCWeights();
 
       res.status(response.status as number).json(response);
     } catch (error) {

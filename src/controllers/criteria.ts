@@ -1,14 +1,46 @@
 import { Request, Response } from "express";
 import { IApiResponse } from "../interfaces/apiResponse";
-import { ISettingController, ISettingData } from "../interfaces/settings";
+import {
+  ICriteriaController,
+  ICriteriaData,
+  IQueryParams,
+} from "../interfaces/criteria";
 import { CriteriaModel } from "../models/setting.model";
 
 import { calculateROCWeights } from "../services/rocService";
 import { SequelizeScopeError } from "sequelize";
-export class SettingController implements ISettingController {
-  async getSetting(query?: unknown): Promise<IApiResponse> {
+
+export class CriteriaController implements ICriteriaController {
+  async create(payload: ICriteriaData): Promise<IApiResponse> {
     try {
-      const allCriteria = await CriteriaModel.findAll();
+      const [user, isCreated] = await CriteriaModel.findOrCreate(payload);
+      await calculateROCWeights();
+
+      if (!isCreated) {
+        return {
+          status: 400,
+          message: "Criteria already exist",
+          data: null,
+        };
+      }
+
+      return {
+        status: 200,
+        message: "success",
+        data: null,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        message: "Internal Server Error",
+        data: null,
+      };
+    }
+  }
+
+  async getCriteria(query?: IQueryParams): Promise<IApiResponse> {
+    try {
+      const allCriteria = await CriteriaModel.findAll({ where: { ...query } });
 
       // const rankOrdered = allCriteria.map((c) => ({ rankOrder: c.rank_order }));
 
@@ -28,7 +60,7 @@ export class SettingController implements ISettingController {
       };
     }
   }
-  async updateSetting(payload: ISettingData[]): Promise<IApiResponse> {
+  async updateCriteria(payload: ICriteriaData[]): Promise<IApiResponse> {
     try {
       if (!payload.length) {
         return {
