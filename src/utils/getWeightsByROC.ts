@@ -1,8 +1,8 @@
-import { SettingModel } from "../models/setting.model";
+import { CriteriaModel } from "../models/setting.model";
 import { calculateROCWeights } from "../services/rocService";
 
 export async function getWeightsByROC(): Promise<number[]> {
-  const allCriteria = await SettingModel.findAll();
+  const allCriteria = await CriteriaModel.findAll();
 
   // misalnya hasil findAll() => array Criteria
   // Pastikan data sudah urut rankOrder ASC,

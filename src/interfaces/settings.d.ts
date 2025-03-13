@@ -3,7 +3,7 @@ import { IApiResponse } from "./apiResponse";
 export interface ISettingData {
   id: number;
   name: string;
-  point: number;
+  rank_order: number;
 }
 
 export interface ISettingController {

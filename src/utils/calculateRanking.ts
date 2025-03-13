@@ -8,12 +8,12 @@ import { getWeightsByROC } from "./getWeightsByROC";
  * 2. Ambil semua kandidat dari DB
  * 3. Hitung ARAS (ranking)
  */
-export async function calculateRanking() {
+export async function calculateRanking(whereClause: any) {
   const weights = await getWeightsByROC();
   // => [w1, w2, w3, w4, w5], misal => [0.457, 0.257, 0.157, 0.090, 0.040]
 
   // Ambil kandidat dari DB
-  const candidates = await Employee.findAll();
+  const candidates = await Employee.findAll({ where: whereClause });
 
   // Bentuk format array of CandidateData
   const candidateData = candidates.map((c) => ({
