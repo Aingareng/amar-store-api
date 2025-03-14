@@ -34,7 +34,6 @@ export class EmployeeController implements IEmployeeController {
 
   async getEmployees(req: Request, res: Response): Promise<IApiResponse> {
     try {
-      const weights = await getWeightsByROC();
       const { search, id } = req.query;
 
       const whereClause: any = {};

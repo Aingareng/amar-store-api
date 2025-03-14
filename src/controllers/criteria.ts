@@ -9,6 +9,7 @@ import { CriteriaModel } from "../models/setting.model";
 
 import { calculateROCWeights } from "../services/rocService";
 import { Sequelize } from "sequelize";
+import { Op } from "sequelize";
 
 export class CriteriaController implements ICriteriaController {
   async create(payload: ICriteriaData): Promise<IApiResponse> {
@@ -58,14 +59,17 @@ export class CriteriaController implements ICriteriaController {
     }
   }
 
-  async getCriteria(query?: IQueryParams): Promise<IApiResponse> {
+  async getCriteria({ search }: IQueryParams): Promise<IApiResponse> {
     try {
-      const allCriteria = await CriteriaModel.findAll({ where: { ...query } });
-
-      // const rankOrdered = allCriteria.map((c) => ({ rankOrder: c.rank_order }));
-
-      // const weights = calculateROCWeights(rankOrdered);
-      // console.log("🚀 ~ SettingController ~ getSetting ~ weights:", weights);
+      const whereClause: any = {};
+      if (search) {
+        whereClause[Op.or] = [
+          { name: { [Op.like]: `%${search}%` } },
+          { code: { [Op.like]: `%${search}%` } },
+          { type: { [Op.like]: `%${search}%` } },
+        ];
+      }
+      const allCriteria = await CriteriaModel.findAll({ where: whereClause });
 
       return {
         status: 200,

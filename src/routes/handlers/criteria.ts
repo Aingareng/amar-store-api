@@ -9,7 +9,7 @@ const criteriaRoute = () => {
 
   router.get("/", async (req: Request, res: Response) => {
     try {
-      const response = await controller.getCriteria();
+      const response = await controller.getCriteria({ ...req.query });
 
       res.status(response.status as number).json(response);
     } catch (error) {
@@ -22,7 +22,7 @@ const criteriaRoute = () => {
       const response = await controller.create(req.body as ICriteriaData);
       res.status(response.status as number).json(response);
     } catch (error) {
-      res.status(500).json({ message: "Failed to fetch data" });
+      res.status(500).json({ message: "Failed to create data" });
     }
   });
 
