@@ -8,15 +8,31 @@ import {
 import { CriteriaModel } from "../models/setting.model";
 
 import { calculateROCWeights } from "../services/rocService";
-import { SequelizeScopeError } from "sequelize";
+import { Sequelize } from "sequelize";
 
 export class CriteriaController implements ICriteriaController {
   async create(payload: ICriteriaData): Promise<IApiResponse> {
+    const transaction = await CriteriaModel.sequelize?.transaction();
     try {
+      if (!transaction) {
+        throw new Error("Failed to start transaction");
+      }
+      const { count } = await CriteriaModel.findAndCountAll();
+
+      if (count >= 5) {
+        transaction.rollback();
+        return {
+          status: 400,
+          message: "Criteria cannot be more than 5",
+          data: null,
+        };
+      }
+
       const [user, isCreated] = await CriteriaModel.findOrCreate(payload);
       await calculateROCWeights();
 
       if (!isCreated) {
+        transaction.rollback();
         return {
           status: 400,
           message: "Criteria already exist",
@@ -24,12 +40,16 @@ export class CriteriaController implements ICriteriaController {
         };
       }
 
+      await transaction.commit();
       return {
         status: 200,
         message: "success",
         data: null,
       };
     } catch (error) {
+      if (transaction) {
+        await transaction.rollback(); // Rollback jika terjadi error
+      }
       return {
         status: 500,
         message: "Internal Server Error",
