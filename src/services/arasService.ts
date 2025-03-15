@@ -26,11 +26,13 @@ export async function calculateARAS5({
 
   const employees = await Employee.findAll({ where: whereClause });
 
+  // console.log("🚀 ~ employees:", employees);
   // 3. Hitung total nilai per kriteria
   const sumColumns: { [key: string]: number } = {};
 
   for (const criteria of criteriaList) {
-    const col = criteria.name; // ex: "K1", "K2"
+    const col = criteria.code.toLowerCase(); // ex: "K1", "K2"
+    console.log("🚀 ~ col:", col);
 
     sumColumns[col] =
       criteria.type === "cost"
@@ -53,7 +55,7 @@ export async function calculateARAS5({
     let score = 0;
 
     for (const criteria of criteriaList) {
-      const col = criteria.name;
+      const col = criteria.code.toLowerCase();
       const weight = criteria.weight || 0;
 
       const normalized =

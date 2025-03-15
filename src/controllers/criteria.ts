@@ -28,18 +28,25 @@ export class CriteriaController implements ICriteriaController {
           data: null,
         };
       }
+      const existCriteria = await CriteriaModel.findOne({
+        where: { name: payload.name },
+      });
 
-      const [user, isCreated] = await CriteriaModel.findOrCreate(payload);
-      await calculateROCWeights();
-
-      if (!isCreated) {
-        transaction.rollback();
+      if (existCriteria) {
         return {
           status: 400,
-          message: "Criteria already exist",
+          message: "Criteria already available",
           data: null,
         };
       }
+
+      await CriteriaModel.create({
+        name: payload.name,
+        type: payload.type,
+        code: payload.code,
+        rank_order: payload.rank_order,
+      });
+      await calculateROCWeights();
 
       await transaction.commit();
       return {
@@ -51,6 +58,32 @@ export class CriteriaController implements ICriteriaController {
       if (transaction) {
         await transaction.rollback(); // Rollback jika terjadi error
       }
+      return {
+        status: 500,
+        message: error as string,
+        data: null,
+      };
+    }
+  }
+
+  async findCriteria({ id }: IQueryParams): Promise<IApiResponse> {
+    try {
+      const criteria = await CriteriaModel.findByPk(id);
+
+      if (!criteria) {
+        return {
+          status: 400,
+          message: "Criteria not found",
+          data: criteria,
+        };
+      }
+
+      return {
+        status: 200,
+        message: "success",
+        data: criteria,
+      };
+    } catch (error) {
       return {
         status: 500,
         message: "Internal Server Error",
@@ -84,32 +117,44 @@ export class CriteriaController implements ICriteriaController {
       };
     }
   }
-  async updateCriteria(payload: ICriteriaData[]): Promise<IApiResponse> {
+  async updateCriteria(
+    id: number,
+    payload: ICriteriaData
+  ): Promise<IApiResponse> {
     try {
-      if (!payload.length) {
+      if (!payload) {
         return {
           status: 400,
-          message: "No settings to update",
+          message: "No criteria to update",
           data: null,
         };
       }
+      const criteria = await CriteriaModel.findByPk(id);
 
-      // Ambil semua ID yang perlu diupdate
-      const ids = payload.map((item) => item.id);
+      if (!criteria) {
+        return {
+          status: 404,
+          message: "Employee not found",
+          data: undefined,
+        };
+      }
 
-      // Buat CASE WHEN untuk mengupdate tiap record sesuai ID-nya
-      const caseQuery = payload
-        .map((item) => `WHEN id = ${item.id} THEN ${item.rank_order}`)
-        .join(" ");
+      //   // Ambil semua ID yang perlu diupdate
+      //   const ids = payload.map((item) => item.id);
 
-      const query = `
-      UPDATE criterias
-      SET rank_order = CASE ${caseQuery} END
-      WHERE id IN (${ids.join(",")});
-    `;
+      //   // Buat CASE WHEN untuk mengupdate tiap record sesuai ID-nya
+      //   const caseQuery = payload
+      //     .map((item) => `WHEN id = ${id} THEN ${item.rank_order}`)
+      //     .join(" ");
+
+      //   const query = `
+      //   UPDATE criterias
+      //   SET rank_order = CASE ${caseQuery} END
+      //   WHERE id IN (${ids.join(",")});
+      // `;
 
       // Eksekusi query langsung melalui Sequelize
-      const result = await CriteriaModel.sequelize?.query(query);
+      const result = await criteria.update({ ...payload });
       if (!result) {
         throw new Error("Query execution failed");
       }

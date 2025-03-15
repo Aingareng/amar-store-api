@@ -17,6 +17,17 @@ const criteriaRoute = () => {
     }
   });
 
+  router.get("/:id", async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const response = await controller.findCriteria({ id: +id });
+
+      res.status(response.status as number).json(response);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch data" });
+    }
+  });
+
   router.post("/", async (req: Request, res: Response) => {
     try {
       const response = await controller.create(req.body as ICriteriaData);
@@ -29,8 +40,9 @@ const criteriaRoute = () => {
   router.put("/", async (req: Request, res: Response) => {
     try {
       const { data } = req.body;
+      const { id } = req.query;
 
-      const response = await controller.updateCriteria(data);
+      const response = await controller.updateCriteria(Number(id), data);
       await calculateROCWeights();
 
       res.status(response.status as number).json(response);

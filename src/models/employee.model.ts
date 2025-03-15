@@ -8,14 +8,14 @@ export class Employee extends Model {
   public password!: string;
   public phone!: string;
   public isMale!: boolean;
-  public age!: number;
-  public education!: number;
-  public experience!: number;
-  public leadership!: number;
+  public k3!: number;
+  public k2!: number;
+  public k4!: number;
+  public k5!: number;
   public final_score!: number;
   public rangking!: number;
   public position!: string;
-  public skill!: number;
+  public k1!: number;
 
   // timestamps
   public readonly createdAt!: Date;
@@ -49,19 +49,19 @@ Employee.init(
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
-    age: {
+    k3: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    education: {
+    k2: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    experience: {
+    k4: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    leadership: {
+    k5: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -85,7 +85,7 @@ Employee.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    skill: {
+    k1: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },

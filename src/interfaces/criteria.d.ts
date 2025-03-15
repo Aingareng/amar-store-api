@@ -9,11 +9,13 @@ export interface ICriteriaData {
   code?: string;
 }
 export interface IQueryParams {
+  id?: number;
   search?: string;
 }
 
 export interface ICriteriaController {
-  updateCriteria(payload: ICriteriaData[]): Promise<IApiResponse>;
+  updateCriteria(id: number, payload: ICriteriaData): Promise<IApiResponse>;
   getCriteria({ search }: IQueryParams): Promise<IApiResponse>;
   create(payload: ICriteriaData): Promise<IApiResponse>;
+  findCriteria({ id }: IQueryParams): Promise<IApiResponse>;
 }

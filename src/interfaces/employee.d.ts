@@ -8,14 +8,14 @@ export interface IEmployeeData {
   password: string;
   phone: string;
   gender: "male" | "female";
-  age: string;
-  education: string;
+  k3: string;
+  k2: string;
   position: string;
-  experience: string;
-  leadership: string;
+  k4: string;
+  k5: string;
   createdAt?: Date;
   updatedAt?: Date;
-  skill?: string;
+  k1?: string;
 }
 
 export interface IEmployeeController {

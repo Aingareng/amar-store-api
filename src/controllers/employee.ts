@@ -13,8 +13,6 @@ export class EmployeeController implements IEmployeeController {
 
       const result = await Employee.create({
         ...payload,
-        age: +payload.age,
-        experience: +payload.experience,
         isMale: payload.gender === "male" ? true : false,
         createdAt: new Date(),
       });
@@ -109,9 +107,6 @@ export class EmployeeController implements IEmployeeController {
 
       await employee.update({
         ...payload,
-        age: +payload.age,
-        experience: +payload.experience,
-        skill: payload.skill ? payload.skill : 0,
         isMale: payload.gender === "male" ? true : false,
         updatedAt: new Date(),
       });
