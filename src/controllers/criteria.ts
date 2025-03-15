@@ -172,4 +172,31 @@ export class CriteriaController implements ICriteriaController {
       };
     }
   }
+  async destroyCriteria({ id }: IQueryParams): Promise<IApiResponse> {
+    try {
+      const criteria = await CriteriaModel.findByPk(id);
+
+      if (!criteria) {
+        return {
+          status: 400,
+          message: "Criteria not found",
+          data: null,
+        };
+      }
+
+      await criteria.destroy();
+
+      return {
+        status: 200,
+        message: "success",
+        data: null,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        message: "Internal Server Error",
+        data: null,
+      };
+    }
+  }
 }

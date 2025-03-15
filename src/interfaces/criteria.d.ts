@@ -18,4 +18,5 @@ export interface ICriteriaController {
   getCriteria({ search }: IQueryParams): Promise<IApiResponse>;
   create(payload: ICriteriaData): Promise<IApiResponse>;
   findCriteria({ id }: IQueryParams): Promise<IApiResponse>;
+  destroyCriteria({ id }: IQueryParams): Promise<IApiResponse>;
 }

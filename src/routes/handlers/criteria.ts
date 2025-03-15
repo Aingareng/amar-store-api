@@ -51,6 +51,18 @@ const criteriaRoute = () => {
     }
   });
 
+  router.delete("/", async (req: Request, res: Response) => {
+    try {
+      const response = await controller.destroyCriteria({
+        id: Number(req.query.id),
+      });
+      await calculateROCWeights();
+      res.status(response.status as number).json(response);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete data" });
+    }
+  });
+
   return router;
 };
 
