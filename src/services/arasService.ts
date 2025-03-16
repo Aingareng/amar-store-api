@@ -14,7 +14,7 @@ interface EmployeeARAS extends Employee {
 interface IQueryParams {
   whereClause: any;
 }
-export async function calculateARAS5({
+export default async function calculateARAS5({
   whereClause,
 }: IQueryParams): Promise<EmployeeARAS[]> {
   // 1. Ambil semua kriteria

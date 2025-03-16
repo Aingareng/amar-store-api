@@ -4,8 +4,8 @@ import e, { Request, Response } from "express";
 import { IApiResponse } from "../interfaces/apiResponse";
 import { Op } from "sequelize";
 import { getWeightsByROC } from "../utils/getWeightsByROC";
-import { calculateARAS5 } from "../services/arasService";
-// import { calculateARAS } from "../services/arasService";
+import calculateARAS5 from "../services/arasService";
+
 export class EmployeeController implements IEmployeeController {
   async createEmployee(req: Request, res: Response): Promise<IApiResponse> {
     try {

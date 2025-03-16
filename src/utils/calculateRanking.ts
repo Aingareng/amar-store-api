@@ -1,5 +1,5 @@
 import { Employee } from "../models";
-import { calculateARAS } from "../services/arasService";
+import calculateARAS5 from "../services/arasService";
 import { getWeightsByROC } from "./getWeightsByROC";
 
 /**
@@ -20,15 +20,15 @@ export async function calculateRanking(whereClause: any) {
     ...c,
     id: c.id,
     name: c.username,
-    skill: c.skill,
-    leadership: c.leadership,
-    education: c.education,
-    experience: c.experience,
-    age: c.age,
+    k1: c.k1,
+    k5: c.k5,
+    k2: c.k2,
+    k4: c.k4,
+    k3: c.k3,
   }));
 
   // Hitung ARAS
-  const arasResults = calculateARAS(candidateData, weights);
+  // const arasResults = calculateARAS5(candidateData, weights);
 
-  return arasResults;
+  // return arasResults;
 }
