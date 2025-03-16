@@ -1,5 +1,4 @@
 import { Employee } from "../models";
-import calculateARAS5 from "../services/arasService";
 import { getWeightsByROC } from "./getWeightsByROC";
 
 /**
