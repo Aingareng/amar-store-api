@@ -32,7 +32,6 @@ export default async function calculateARAS5({
 
   for (const criteria of criteriaList) {
     const col = criteria.code.toLowerCase(); // ex: "K1", "K2"
-    console.log("🚀 ~ col:", col);
 
     sumColumns[col] =
       criteria.type === "cost"
