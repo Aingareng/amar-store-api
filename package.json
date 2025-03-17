@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --watch src --exec ts-node src/server.ts",
-    "build": "tsc",
+    "build": "tsc && cp src/config/config.json dist/config/config.json",
     "postinstall": "npm run build",
     "migrate:prod": "npx sequelize-cli db:migrate --env production",
     "start": "npm run migrate:prod && node dist/server.js",
