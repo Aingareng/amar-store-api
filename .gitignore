@@ -12,7 +12,7 @@
 # Folder node_modules berisi paket-paket yang didownload
 # dari registry dan sebaiknya tidak dimasukkan ke repository.
 node_modules/
-
+src/config/config.js
 # ---------------------------------
 #  LOG FILES
 # ---------------------------------

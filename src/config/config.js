@@ -22,27 +22,3 @@ module.exports = {
     dialect: process.env.DB_DIALECT || "mysql",
   },
 };
-
-// {
-//   "development": {
-//     "username": "root",
-//     "password": "",
-//     "database": "development_database",
-//     "host": "127.0.0.1",
-//     "dialect": "mysql"
-//   },
-//   "test": {
-//     "username": "root",
-//     "password": "",
-//     "database": "test_database",
-//     "host": "127.0.0.1",
-//     "dialect": "mysql"
-//   },
-//   "production": {
-//     "username": "root",
-//     "password": "",
-//     "database": "production_database",
-//     "host": "127.0.0.1",
-//     "dialect": "mysql"
-//   }
-// }

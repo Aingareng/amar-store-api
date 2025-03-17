@@ -86,7 +86,7 @@ export class CriteriaController implements ICriteriaController {
     } catch (error) {
       return {
         status: 500,
-        message: "Internal Server Error",
+        message: error as string,
         data: null,
       };
     }
@@ -112,7 +112,7 @@ export class CriteriaController implements ICriteriaController {
     } catch (error) {
       return {
         status: 500,
-        message: "Internal Server Error",
+        message: error as string,
         data: null,
       };
     }
@@ -138,20 +138,6 @@ export class CriteriaController implements ICriteriaController {
           data: undefined,
         };
       }
-
-      //   // Ambil semua ID yang perlu diupdate
-      //   const ids = payload.map((item) => item.id);
-
-      //   // Buat CASE WHEN untuk mengupdate tiap record sesuai ID-nya
-      //   const caseQuery = payload
-      //     .map((item) => `WHEN id = ${id} THEN ${item.rank_order}`)
-      //     .join(" ");
-
-      //   const query = `
-      //   UPDATE criterias
-      //   SET rank_order = CASE ${caseQuery} END
-      //   WHERE id IN (${ids.join(",")});
-      // `;
 
       // Eksekusi query langsung melalui Sequelize
       const result = await criteria.update({ ...payload });
@@ -194,7 +180,7 @@ export class CriteriaController implements ICriteriaController {
     } catch (error) {
       return {
         status: 500,
-        message: "Internal Server Error",
+        message: error as string,
         data: null,
       };
     }
