@@ -16,6 +16,9 @@ export const sequelize = new Sequelize(dbName, dbUser, dbPass, {
   host: dbHost,
   dialect: dbDialect,
   port: dbPort,
+  pool: {
+    acquire: 30000,
+  },
 });
 
 // Test connection
