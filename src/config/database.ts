@@ -17,8 +17,16 @@ export const sequelize = new Sequelize(dbName, dbUser, dbPass, {
   dialect: dbDialect,
   port: dbPort,
   pool: {
-    acquire: 30000,
+    max: 10,
+    min: 2,
+    acquire: 60000,
+    idle: 30000,
   },
+  // retry: {
+  //   match: [/Deadlock/i, Sequelize.ConnectionAcquireTimeoutError],
+  //   max: 3,
+  // },
+  logging: (msg) => console.log(msg),
 });
 
 // Test connection
