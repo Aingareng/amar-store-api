@@ -102,7 +102,10 @@ export class CriteriaController implements ICriteriaController {
           { type: { [Op.like]: `%${search}%` } },
         ];
       }
-      const allCriteria = await CriteriaModel.findAll({ where: whereClause });
+      const allCriteria = await CriteriaModel.findAll({
+        where: whereClause,
+        order: [["rank_order", "ASC"]],
+      });
 
       return {
         status: 200,
