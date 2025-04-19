@@ -23,10 +23,8 @@ export default async function calculateARAS5({
   });
 
   // 2. Ambil semua employees dari database
-
   const employees = await Employee.findAll({ where: whereClause });
 
-  // console.log("🚀 ~ employees:", employees);
   // 3. Hitung total nilai per kriteria
   const sumColumns: { [key: string]: number } = {};
 
