@@ -31,7 +31,7 @@ SkillCriteriaModel.init(
       type: DataTypes.DATE,
     },
     updatedAt: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE,
     },
   },

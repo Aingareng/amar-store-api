@@ -11,6 +11,7 @@ const skillCriteriaRoute = () => {
   router.get("/", async (req: Request, res: Response) => {
     try {
       const response = await controller.get({ ...req.query });
+      res.status(response.status as number).json(response);
     } catch (error) {
       res.status(500).json({ error });
     }
@@ -24,28 +25,34 @@ const skillCriteriaRoute = () => {
         const response = await controller.create(
           req.body as ISkillCriteriaPayload
         );
+
+        res.status(response.status as number).json(response);
       } catch (error) {
         res.status(500).json({ error });
       }
     }
   );
 
-  router.put("/", async (req: Request, res: Response) => {
-    try {
-      const { id, payload } = req.body as {
-        id: number;
-        payload: ISkillCriteriaPayload;
-      };
-      const response = await controller.update(id, payload);
-    } catch (error) {
-      res.status(500).json({ error });
+  router.put(
+    "/:id",
+    validate(SkillCriteriaPayloadSchema),
+    async (req: Request, res: Response) => {
+      try {
+        const { id } = req.params;
+        const payload = req.body as ISkillCriteriaPayload;
+        const response = await controller.update(+id, { ...payload });
+        res.status(response.status as number).json(response);
+      } catch (error) {
+        res.status(500).json({ error });
+      }
     }
-  });
+  );
 
   router.delete("/", async (req: Request, res: Response) => {
     try {
       const { id } = req.body as { id: number };
       const response = await controller.delete(id);
+      res.status(response.status as number).json(response);
     } catch (error) {
       res.status(500).json({ error });
     }

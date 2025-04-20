@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import { IApiResponse } from "../interfaces/apiResponse";
 import {
   IQueryParams,
@@ -102,8 +102,7 @@ class skillCriteriaController implements ISkillCriteriaController {
           data: null,
         };
       }
-
-      const result = await existData.update(id, payload);
+      const result = await existData.update({ ...payload });
 
       return {
         status: 200,
