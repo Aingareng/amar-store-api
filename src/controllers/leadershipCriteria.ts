@@ -116,7 +116,7 @@ class leaderShipController implements ILeadershipCriteriaController {
       });
 
       return {
-        status: 200,
+        status: 201,
         message: `Successfully change ${result.name} criteria`,
         data: null,
       };

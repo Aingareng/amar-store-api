@@ -49,7 +49,7 @@ class skillCriteriaController implements ISkillCriteriaController {
       const result = await SkillCriteriaModel.create({ ...payload });
 
       return {
-        status: 200,
+        status: 201,
         message: `Successfully added ${result.name} skills`,
         data: null,
       };
@@ -76,7 +76,7 @@ class skillCriteriaController implements ISkillCriteriaController {
       await existData.destroy();
 
       return {
-        status: 200,
+        status: 201,
         message: `Successfully remove ${existData.name} skills`,
         data: null,
       };
@@ -105,7 +105,7 @@ class skillCriteriaController implements ISkillCriteriaController {
       const result = await existData.update({ ...payload });
 
       return {
-        status: 200,
+        status: 201,
         message: `Successfully change ${result.name} skills`,
         data: null,
       };
