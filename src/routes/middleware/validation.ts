@@ -14,9 +14,9 @@ export function validate<T extends z.ZodTypeAny>(schema: T) {
     } catch (error) {
       if (error instanceof ZodError) {
         res.status(400).json({
-          status: "error",
+          status: 400,
           message: "Validation failed",
-          errors: error.errors.map((e) => ({
+          data: error.errors.map((e) => ({
             path: e.path.join("."),
             message: e.message,
           })),
