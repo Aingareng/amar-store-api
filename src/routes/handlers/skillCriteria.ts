@@ -48,10 +48,10 @@ const skillCriteriaRoute = () => {
     }
   );
 
-  router.delete("/", async (req: Request, res: Response) => {
+  router.delete("/:id", async (req: Request, res: Response) => {
     try {
-      const { id } = req.body as { id: number };
-      const response = await controller.delete(id);
+      const { id } = req.params;
+      const response = await controller.delete(+id);
       res.status(response.status as number).json(response);
     } catch (error) {
       res.status(500).json({ error });

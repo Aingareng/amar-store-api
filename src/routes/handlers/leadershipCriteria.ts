@@ -48,10 +48,10 @@ const leadershipCriteriaRoute = () => {
     }
   );
 
-  router.delete("/", async (req: Request, res: Response) => {
+  router.delete("/:id", async (req: Request, res: Response) => {
     try {
-      const payload = req.body as { id: number };
-      const response = await controller.delete(payload.id);
+      const { id } = req.params as { id: string };
+      const response = await controller.delete(+id);
 
       res.status(response.status as number).json(response);
     } catch (error) {
