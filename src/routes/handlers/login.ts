@@ -6,10 +6,9 @@ const loginRoute = () => {
 
   router.post("/", async (req: Request, res: Response) => {
     try {
-      // console.log("🚀 ~ router.post ~ req.body:", req.body);
       const { email, password } = req.body as payloadType;
       const response = await LoginController({ email, password });
-      res.status(200).json(response);
+      res.status(response.status).json(response);
     } catch (error: unknown) {
       res.status(500).json({ message: error });
     }
