@@ -13,13 +13,13 @@ export class EmployeeController implements IEmployeeController {
 
       const result = await Employee.create({
         ...payload,
-        isMale: payload.gender === "male" ? true : false,
+        isMale: payload.isMale === "male" ? true : false,
         createdAt: new Date(),
       });
       return {
         status: 201,
         message: "created",
-        data: result,
+        data: null,
       };
     } catch (error: any) {
       return {
@@ -107,13 +107,13 @@ export class EmployeeController implements IEmployeeController {
 
       await employee.update({
         ...payload,
-        isMale: payload.gender === "male" ? true : false,
+        isMale: payload.isMale === "male" ? true : false,
         updatedAt: new Date(),
       });
       return {
         status: 201,
         message: "updated",
-        data: employee,
+        data: null,
       };
     } catch (error: any) {
       return {
@@ -140,7 +140,7 @@ export class EmployeeController implements IEmployeeController {
       return {
         status: 201,
         message: "deleted",
-        data: employee,
+        data: null,
       };
     } catch (error: any) {
       return {

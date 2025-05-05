@@ -7,7 +7,7 @@ export interface IEmployeeData {
   email: string;
   password: string;
   phone: string;
-  gender: "male" | "female";
+  isMale: "male" | "female";
   k3: string;
   k2: string;
   position: string;
